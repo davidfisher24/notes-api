@@ -15,6 +15,12 @@ class UsersController < ApplicationController
      json_response(@users)
   end
 
+  # GET /user
+  def show
+    @user = User.find(current_user.id)
+    json_response(@user)
+  end
+
   private
 
   def user_params
