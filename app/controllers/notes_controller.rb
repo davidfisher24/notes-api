@@ -32,6 +32,24 @@ class NotesController < ApplicationController
     head :no_content
   end
 
+  # POST notes/:id/share/:user
+  def share
+    @user = User.find(params[:user]) 
+    @note = current_user.notes.find(params[:id])
+    @share = Share.new()
+    @share.user = @user
+    @share.note = @note
+    @share.save!
+    head :no_content
+  end
+
+  # DELETE notes/:id/share/:user
+  def unshare
+    @note = current_user.notes.find(params[:id])
+    @share = Share.find_by_user_id_and_note_id(params[:user],params[:id]).destroy
+    head :no_content
+  end
+
   private
 
   # remove `created_by` from list of permitted parameters
